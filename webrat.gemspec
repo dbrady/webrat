@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   
   s.name         = "webrat"
-  s.version      = "0.4.4"
+  s.version      = "0.4.4.1"
   s.platform     = Gem::Platform::RUBY
   s.author       = "David Brady"
   s.email        = "github@shinybit.com"
