@@ -16,7 +16,11 @@ module Webrat
     end
 
     def webrat_session
-      @_webrat_session ||= ::Webrat.session_class.new(self)
+      if Webrat.configuration.mode == :rack_test
+        @_webrat_session ||= ::Webrat::RackTestSession.new(rack_test_session)
+      else
+        @_webrat_session ||= ::Webrat.session_class.new(self)
+      end
     end
 
     # all of these methods delegate to the @session, which should
@@ -53,9 +57,7 @@ module Webrat
       :field_by_xpath,
       :field_with_id,
       :selenium,
-      :simulate, :automate
-
-
-
+      :simulate, :automate,
+      :field_named
   end
 end

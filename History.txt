@@ -1,11 +1,46 @@
+== 0.4.5 / ?
+
+* Major enhancements
+
+  * Ruby 1.9 compatibility (Michael Fellinger, Jakub Kuźma)
+  * Improve performance (~2x) on JRuby by supporting Nokogiri
+  * Added support for external app servers in selenium mode (basically don't start one) (Mike Gaffney)
+  * Added support for uploading files for Merb (Ryan Carver)
+
+* Minor enhancements
+
+  * Upgrade to selenium-client to 1.2.16 (Brian Landau)
+  * Upgrade selenium-server.jar to 1.0.1 (Brian Landau)
+  * Make redirect detection work in the face of rational maths (like when ruby-units is active) (Piers Cawley)
+  * Use Launchy to handle opening pages in the browser with cross-platform compatibility (Bryan Helmkamp)
+  * Added support for field_labeled_locators ending in non word characters
+    lh 148 (Zach Dennis)
+  * Filled in tests on click link lh 195 (diabolo)
+  * Added current_url to selenium session lh 215 (Luke Amdor)
+  * Added silence spec to selenium lh 238 (Martin Gamsjaeger aka snusnu)
+  * Added ability to configure the browser startup timeout for selenium lh 242 (Mike Gaffney, Mark Dodwell)
+  * Added delegation for field_named lh194 (pivotal labs)
+  * Added fix to keep from escaping field values in mechanize mode lh256 (jish)
+  * Adding fixes for click button/link and made the integration specs pass for the same in selenium lh254 (Ldiehl, Matthias Marschall)
+  * Adding clicking link by id in selenium mode lh221 (larrytheliquid)
+  * Adding fix for have_selector and have_xpath in descendent blocks lh234 (Thomas Jack)
+  * Adding fix for fields with labels with special characters (Thomas Jack, Mike Gaffney, Bryan Hemlkamp)
+  * Deprecated current_page lh50 (Mike Gaffney)
+  * Fixed issue with redirects and multiple hosts lh168 (Mutwin Kraus)
+
+* Bug fixes
+
+  * Wait for application servers socket on 0.0.0.0 instead of the application_address
+  * Translate CSS and image paths with single quotes in save_and_open_page (Erin Staniland)
+
 == 0.4.4 / 2009-04-06
 
 * Major enhancements
 
   * Make selenium process management code more robust and informative
-  
+
 * Minor enhancements
-  
+
   * Add support for Rails javascript post links (Mark Menard)
   * Upgrade selenium-client dependency to 1.2.14, and update for new waiting
     API (Balint Erdi)
@@ -16,7 +51,7 @@
   * Don't create a new instance of WWW::Mechanize for each request
     (Mark Menard)
   * Select fields with duplicate selected options sent an incorrect value (Noah Davis)
-  
+
 == 0.4.3 / 2009-03-17
 
 * Minor enhancements
@@ -26,7 +61,7 @@
   * Initial Merb and Sinatra compatibility for Selenium mode (Corey Donohoe)
   * When faced with a label with no for attribute, that contains a hidden field
     and another field, as can be the case in Rails 2.3's checkbox view,
-    webrat now locates the non-hidden field. (Luke Melia) 
+    webrat now locates the non-hidden field. (Luke Melia)
   * Add application_framework config for Selenium mode to determine how to
     start and stop the app server (Corey Donohoe)
 
@@ -42,7 +77,7 @@
     attributes in a hash and :count and :content options. See
     have_selector_spec.rb for more.
   * Add the same functionality mentioned above to have_xpath
-    
+
 * Minor enhancements
 
   * Squeeze extra whitespace out of failures messages from contain
@@ -69,7 +104,7 @@
     redirected to (Adam Greene)
   * Recognize input tags with type button (Lena Herrmann)
   * Add uncheck method to Selenium mode (Lee Bankewitz)
-    
+
 * Bug fixes
 
   * Make requests to a Rails app using a full URL instead of a relative path. This change
@@ -80,7 +115,7 @@
     to behave correctly (Noah Davis)
   * Switch to using selenium.click instead of .check when checking a checkbox
     (Noah Davis)
-  * Create tmp/pids directory if directory does not exist. (Amos King and Mike Gaffney)  
+  * Create tmp/pids directory if directory does not exist. (Amos King and Mike Gaffney)
   * Setup deprecated writers for the selenium_environment= and selenium_port= config
   * Ensure the previous pages params aren't passed through redirect (Daniel Lucraft and
     Bryan Helmkamp)
@@ -156,7 +191,7 @@
   * Added save_and_open_screengrab for Selenium mode (Luke Melia)
 
 * Bug fixes
-  
+
   * field_labeled should disregard labels without matching fields (Kyle Hargraves)
   * Fixed bug where Scope was creating a new DOM rather than re-using the existing DOM.
     [#105] (Zach Dennis)

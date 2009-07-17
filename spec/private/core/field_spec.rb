@@ -2,16 +2,18 @@ require File.expand_path(File.dirname(__FILE__) + "/../../spec_helper")
 
 module Webrat
   describe Field do
-    it "should have nice inspect output" do
-      html = <<-HTML
-        <html>
-        <input type='checkbox' checked='checked' />
-        </html>
-      HTML
+    unless Webrat.on_java?
+      it "should have nice inspect output" do
+        html = <<-HTML
+          <html>
+          <input type='checkbox' checked='checked' />
+          </html>
+        HTML
 
-      element = Webrat::XML.css_search(Webrat::XML.document(html), "input").first
-      checkbox = CheckboxField.new(nil, element)
-      checkbox.inspect.should =~ /#<Webrat::CheckboxField @element=<input type=['"]checkbox['"] checked(=['"]checked['"])?\/?>>/
+        element = Webrat::XML.css_search(Webrat::XML.document(html), "input").first
+        checkbox = CheckboxField.new(nil, element)
+        checkbox.inspect.should =~ /#<Webrat::CheckboxField @element=<input type=['"]checkbox['"] checked(=['"]checked['"])?\/?>>/
+      end
     end
   end
 
@@ -62,6 +64,22 @@ module Webrat
       element = Webrat::XML.css_search(Webrat::XML.document(html), "input").first
       radio_button = RadioField.new(nil, element)
       radio_button.should_not be_checked
+    end
+  end
+
+  describe TextField do
+    it 'should not escape values in mechanize mode' do
+      Webrat.configuration.mode = :mechanize
+
+      html = <<-HTML
+        <html>
+          <input type="text" name="email" value="user@example.com" />
+        </html>
+      HTML
+
+      element    = Webrat::XML.css_search(Webrat::XML.document(html), 'input').first
+      text_field = TextField.new(nil, element)
+      text_field.to_param.should == { 'email' => 'user@example.com' }
     end
   end
 end

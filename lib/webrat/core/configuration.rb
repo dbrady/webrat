@@ -54,13 +54,16 @@ module Webrat
     # Set the key that Selenium uses to determine the browser running. Default *firefox
     attr_accessor :selenium_browser_key
 
+    # Set the timeout for waiting for the browser process to start
+    attr_accessor :selenium_browser_startup_timeout
+
     # How many redirects to the same URL should be halted as an infinite redirect
     # loop? Defaults to 10
     attr_accessor :infinite_redirect_limit
 
     def initialize # :nodoc:
       self.open_error_files = true
-      self.parse_with_nokogiri = !Webrat.on_java?
+      self.parse_with_nokogiri = true
       self.application_environment = :test
       self.application_port = 3001
       self.application_address = 'localhost'
@@ -68,6 +71,7 @@ module Webrat
       self.selenium_server_port = 4444
       self.infinite_redirect_limit = 10
       self.selenium_browser_key = '*firefox'
+      self.selenium_browser_startup_timeout = 5
     end
 
     def parse_with_nokogiri? #:nodoc:

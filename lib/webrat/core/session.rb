@@ -26,6 +26,8 @@ module Webrat
       SinatraSession
     when :mechanize
       MechanizeSession
+    when :rack_test
+      RackTestSession
     else
       raise WebratError.new(<<-STR)
 Unknown Webrat mode: #{Webrat.configuration.mode.inspect}
@@ -67,6 +69,7 @@ For example:
 
     # For backwards compatibility -- removing in 1.0
     def current_page #:nodoc:
+      warn "current_page is deprecated and will be going away in the next release. Use current_url instead."
       page = OpenStruct.new
       page.url = @current_url
       page.http_method = @http_method
@@ -100,11 +103,8 @@ For example:
       h['HTTP_REFERER'] = @current_url if @current_url
 
       debug_log "REQUESTING PAGE: #{http_method.to_s.upcase} #{url} with #{data.inspect} and HTTP headers #{h.inspect}"
-      if h.empty?
-        send "#{http_method}", url, data || {}
-      else
-        send "#{http_method}", url, data || {}, h
-      end
+
+      process_request(http_method, url, data, h)
 
       save_and_open_page if exception_caught? && Webrat.configuration.open_error_files?
       raise PageLoadError.new("Page load was not successful (Code: #{response_code.inspect}):\n#{formatted_error}") unless success_code?
@@ -144,7 +144,7 @@ For example:
     end
 
     def redirect? #:nodoc:
-      response_code / 100 == 3
+      (response_code / 100).to_i == 3
     end
 
     def internal_redirect?
@@ -256,15 +256,24 @@ For example:
     def_delegators :current_scope, :field_by_xpath
     def_delegators :current_scope, :field_with_id
     def_delegators :current_scope, :select_option
+    def_delegators :current_scope, :field_named
 
   private
+
+    def process_request(http_method, url, data, headers)
+      if headers.empty?
+        send "#{http_method}", url, data || {}
+      else
+        send "#{http_method}", url, data || {}, headers
+      end
+    end
 
     def response_location
       response.headers["Location"]
     end
 
     def current_host
-      URI.parse(current_url).host || "www.example.com"
+      URI.parse(current_url).host || @custom_headers["Host"] || "www.example.com"
     end
 
     def response_location_host

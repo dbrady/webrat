@@ -87,6 +87,8 @@ module Webrat
         parse_rails_request_params("#{name}=#{escaped_value}")
       when :merb
         ::Merb::Parse.query("#{name}=#{escaped_value}")
+      when :mechanize
+        { name => value }
       else
         { name => escaped_value }
       end
@@ -132,7 +134,7 @@ module Webrat
     end
 
     def escaped_value
-      CGI.escape(@value.to_s)
+      CGI.escape([*@value].first.to_s)
     end
 
     def labels
@@ -356,10 +358,16 @@ module Webrat
   protected
 
     def test_uploaded_file
-      if content_type
-        ActionController::TestUploadedFile.new(@value, content_type)
-      else
-        ActionController::TestUploadedFile.new(@value)
+      case Webrat.configuration.mode
+      when :rails
+        if content_type
+          ActionController::TestUploadedFile.new(@value, content_type)
+        else
+          ActionController::TestUploadedFile.new(@value)
+        end
+      when :merb
+        # TODO: support content_type
+        File.new(@value)
       end
     end
 
