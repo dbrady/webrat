@@ -11,6 +11,14 @@
 Webrat lets you quickly write expressive and robust acceptance tests for a Ruby
 web application. 
 
+== NOTA BENE: About the dbrady fork
+
+This fork includes a patch that fixes Sinatra cookies so cucumber can
+test cookie-based sessions. In all other regards, it is a tracking
+fork of brynary's webrat. Once this patch (which has been pending
+since February 2009, hem-HEM!) has been merged into core Sinatra, I
+will pull down this fork.
+
 == Features
 
 * Browser Simulator for expressive, high level acceptance testing without the
