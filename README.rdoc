@@ -13,15 +13,11 @@ web application.
 
 == NOTA BENE: About the dbrady fork
 
-This fork includes a patch that fixes Sinatra cookies so cucumber can
-test cookie-based sessions. In all other regards, it is a tracking
-fork of brynary's webrat. Once this patch (which has been pending
-since February 2009, hem-HEM!) has been merged into core Sinatra, I
-will pull down this fork.
+This is a tracking fork of brynary's webrat, with the  following
+changes:
 
-Also, adds webrat/rack_test.rb to the gemspec so the file gets
-installed. This is needed if you want your hancock specs to pass.
-(http://github.com/atmos/hancock).
+* Includes jferris' patch to Sinatra cookies so sinatra sessions work
+* Adds webrat/rack_test.rb to the gemspec
 
 == Features
 
