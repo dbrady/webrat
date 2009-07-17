@@ -19,6 +19,10 @@ fork of brynary's webrat. Once this patch (which has been pending
 since February 2009, hem-HEM!) has been merged into core Sinatra, I
 will pull down this fork.
 
+Also, adds webrat/rack_test.rb to the gemspec so the file gets
+installed. This is needed if you want your hancock specs to pass.
+(http://github.com/atmos/hancock).
+
 == Features
 
 * Browser Simulator for expressive, high level acceptance testing without the
